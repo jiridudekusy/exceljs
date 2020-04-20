@@ -1,6 +1,6 @@
 {
   "name": "exceljs",
-  "version": "4.1.1",
+  "version": "4.1.1-stream-browser",
   "description": "Excel Workbook Manager - Read and Write xlsx and csv Files.",
   "private": false,
   "license": "MIT",
@@ -96,6 +96,9 @@
     "pageSetup"
   ],
   "dependencies": {
+    "compress-commons": "https://github.com/jiridudekusy/node-compress-commons/releases/download/3.0.0-browser/compress-commons-3.0.0.tgz",
+    "archiver-utils": "https://github.com/jiridudekusy/archiver-utils/releases/download/v2.1.0-browser.1/archiver-utils-2.1.0.tgz",
+    "zip-stream": "^3.0.1",
     "archiver": "^4.0.2",
     "dayjs": "^1.8.34",
     "fast-csv": "^4.3.1",
