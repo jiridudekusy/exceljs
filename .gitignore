@@ -63,3 +63,5 @@ _SpecRunner.html
 
 # Mac files
 .DS_Store
+
+*.tgz
