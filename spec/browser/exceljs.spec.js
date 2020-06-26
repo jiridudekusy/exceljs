@@ -63,6 +63,41 @@ describe('ExcelJS', () => {
     expect(ws2.getCell('A1').value).toEqual('Hello, World!');
     expect(ws2.getCell('A2').value).toEqual(7);
   });
+  it('should  write xlsx with 2 sheets into stream', async () => {
+    const output = new Stream.Writable();
+    const res = [];
+    output._write = (chunk, encoding, next) => {
+      res.push(chunk);
+      next();
+    };
+
+    const wb = new ExcelJS.stream.xlsx.WorkbookWriter({stream: output});
+    const ws = wb.addWorksheet('blort');
+    ws.addRow(['Hello, World!']).commit();
+    ws.addRow([7]).commit();
+    ws.commit();
+
+    const ws2 = wb.addWorksheet('sheet2');
+    ws2.addRow(['Hello, World!']).commit();
+    ws2.addRow([7]).commit();
+    ws2.commit();
+
+    await wb.commit();
+
+    const wb2 = new ExcelJS.Workbook();
+    await wb2.xlsx.load(Buffer.concat(res));
+    const ews = wb2.getWorksheet('blort');
+    expect(ews).toBeTruthy();
+
+    expect(ews.getCell('A1').value).toEqual('Hello, World!');
+    expect(ews.getCell('A2').value).toEqual(7);
+
+    const ews2 = wb2.getWorksheet('sheet2');
+    expect(ews2).toBeTruthy();
+
+    expect(ews2.getCell('A1').value).toEqual('Hello, World!');
+    expect(ews2.getCell('A2').value).toEqual(7);
+  });
   it('should read and write xlsx via base64 buffer', done => {
     const options = {
       base64: true,
